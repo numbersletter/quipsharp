@@ -21,9 +21,11 @@ hf auth login          # token needs gated meta-llama/google access
 conda activate quipsharp
 nohup setsid bash scripts/launch_full_benchmark.sh \
   --models gemma4-31b,llama3-70b \
-  --gpu 0,1 --gpu_budget_gb 20 --cpu_budget_gb 42 > logs/orchestrator.log 2>&1 &
+  --gpu 0,1 --gpu_budget_gb 60 --cpu_budget_gb 48 > logs/orchestrator.log 2>&1 &
 ```
 
 - Size the flags to the machine: `--gpu` = GPUs to use, `--gpu_budget_gb`
-  ≈ VRAM − 4GB, `--cpu_budget_gb` ≈ RAM − 20GB (or whatever is suitable).
+  Choose allocation that is appropriate given the config (with 1 H100, for example, you can
+  opt to use 80% of the VRAM which would be 64GB and then 50% of available RAM for cpu_budget_gb).
+  This is just a safeguard against OOM errors.
 - Progress: `logs/orchestrator.log`; per-stage logs in `logs/<model>/`.
