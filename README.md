@@ -24,7 +24,7 @@ nohup setsid bash scripts/launch_full_benchmark.sh \
   --gpu 0,1 --gpu_budget_gb 60 --cpu_budget_gb 48 > logs/orchestrator.log 2>&1 &
 ```
 
-- Size the flags to the machine: `--gpu` = GPUs to use, `--gpu_budget_gb`
+- Size the flags to the machine: `--gpu` = GPUs to use, `--gpu_budget_gb`.
   Choose allocation that is appropriate given the config (with 1 H100, for example, you can
   opt to use 80% of the VRAM which would be 64GB and then 50% of available RAM for cpu_budget_gb).
   This is just a safeguard against OOM errors.
