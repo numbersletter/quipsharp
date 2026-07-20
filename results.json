@@ -1,0 +1,428 @@
+{
+  "llama2-7b": {
+    "model_id": "meta-llama/Llama-2-7b-hf",
+    "baseline_ppl": 5.1166,
+    "baseline_zeroshot": {
+      "arc_challenge": {
+        "name": "arc_challenge",
+        "alias": "arc_challenge",
+        "sample_len": 1172,
+        "acc,none": 0.4300341296928328,
+        "acc_stderr,none": 0.014467631559137991,
+        "acc_norm,none": 0.45051194539249145,
+        "acc_norm_stderr,none": 0.01453964609847157
+      },
+      "arc_easy": {
+        "name": "arc_easy",
+        "alias": "arc_easy",
+        "sample_len": 2376,
+        "acc,none": 0.7550505050505051,
+        "acc_stderr,none": 0.008824588611218978,
+        "acc_norm,none": 0.7386363636363636,
+        "acc_norm_stderr,none": 0.009015838366608263
+      }
+    },
+    "2bit": {
+      "quantized_ppl": 8.5894,
+      "quantized_zeroshot": {
+        "arc_challenge": {
+          "name": "arc_challenge",
+          "alias": "arc_challenge",
+          "sample_len": 1172,
+          "acc,none": 0.3378839590443686,
+          "acc_stderr,none": 0.01382204792228354,
+          "acc_norm,none": 0.3464163822525597,
+          "acc_norm_stderr,none": 0.013905011180063256
+        },
+        "arc_easy": {
+          "name": "arc_easy",
+          "alias": "arc_easy",
+          "sample_len": 2376,
+          "acc,none": 0.6910774410774411,
+          "acc_stderr,none": 0.009481048387761367,
+          "acc_norm,none": 0.6342592592592593,
+          "acc_norm_stderr,none": 0.009882988069418874
+        }
+      }
+    },
+    "3bit": {
+      "quantized_ppl": 5.7169,
+      "quantized_zeroshot": {
+        "arc_challenge": {
+          "name": "arc_challenge",
+          "alias": "arc_challenge",
+          "sample_len": 1172,
+          "acc,none": 0.40784982935153585,
+          "acc_stderr,none": 0.01436109728844968,
+          "acc_norm,none": 0.4308873720136519,
+          "acc_norm_stderr,none": 0.014471133392642476
+        },
+        "arc_easy": {
+          "name": "arc_easy",
+          "alias": "arc_easy",
+          "sample_len": 2376,
+          "acc,none": 0.7390572390572391,
+          "acc_stderr,none": 0.009011142493235922,
+          "acc_norm,none": 0.7138047138047138,
+          "acc_norm_stderr,none": 0.00927447077462779
+        }
+      }
+    },
+    "wall_time_s": 3800.9531302452087
+  },
+  "llama3-8b": {
+    "model_id": "meta-llama/Meta-Llama-3-8B",
+    "2bit": {
+      "quantized_ppl": 14.0188,
+      "quantized_zeroshot": {
+        "arc_challenge": {
+          "name": "arc_challenge",
+          "alias": "arc_challenge",
+          "sample_len": 1172,
+          "acc,none": 0.3515358361774744,
+          "acc_stderr,none": 0.013952413699601044,
+          "acc_norm,none": 0.37542662116040953,
+          "acc_norm_stderr,none": 0.014150631435111728
+        },
+        "arc_easy": {
+          "name": "arc_easy",
+          "alias": "arc_easy",
+          "sample_len": 2376,
+          "acc,none": 0.7058080808080808,
+          "acc_stderr,none": 0.009350328648861707,
+          "acc_norm,none": 0.664983164983165,
+          "acc_norm_stderr,none": 0.009685160765932217
+        }
+      }
+    },
+    "3bit": {
+      "quantized_ppl": 7.0554,
+      "quantized_zeroshot": {
+        "arc_challenge": {
+          "name": "arc_challenge",
+          "alias": "arc_challenge",
+          "sample_len": 1172,
+          "acc,none": 0.46757679180887374,
+          "acc_stderr,none": 0.014580637569995414,
+          "acc_norm,none": 0.4991467576791809,
+          "acc_norm_stderr,none": 0.014611369529813302
+        },
+        "arc_easy": {
+          "name": "arc_easy",
+          "alias": "arc_easy",
+          "sample_len": 2376,
+          "acc,none": 0.7853535353535354,
+          "acc_stderr,none": 0.008424859451865024,
+          "acc_norm,none": 0.7689393939393939,
+          "acc_norm_stderr,none": 0.00864922515270068
+        }
+      }
+    },
+    "baseline_ppl": 5.7546,
+    "baseline_zeroshot": {
+      "arc_challenge": {
+        "name": "arc_challenge",
+        "alias": "arc_challenge",
+        "sample_len": 1172,
+        "acc,none": 0.5221843003412969,
+        "acc_stderr,none": 0.014597001927076213,
+        "acc_norm,none": 0.5392491467576792,
+        "acc_norm_stderr,none": 0.014566303676636534
+      },
+      "arc_easy": {
+        "name": "arc_easy",
+        "alias": "arc_easy",
+        "sample_len": 2376,
+        "acc,none": 0.8097643097643098,
+        "acc_stderr,none": 0.008053664021228984,
+        "acc_norm,none": 0.7777777777777778,
+        "acc_norm_stderr,none": 0.00853079884388794
+      }
+    },
+    "wall_time_s": 23191.667752742767
+  },
+  "qwen2.5-7b": {
+    "model_id": "Qwen/Qwen2.5-7B",
+    "baseline_ppl": 6.3882,
+    "baseline_zeroshot": {
+      "arc_challenge": {
+        "name": "arc_challenge",
+        "alias": "arc_challenge",
+        "sample_len": 1172,
+        "acc,none": 0.4812286689419795,
+        "acc_stderr,none": 0.014601090150634058,
+        "acc_norm,none": 0.5127986348122867,
+        "acc_norm_stderr,none": 0.014606603181012609
+      },
+      "arc_easy": {
+        "name": "arc_easy",
+        "alias": "arc_easy",
+        "sample_len": 2376,
+        "acc,none": 0.805976430976431,
+        "acc_stderr,none": 0.008114403663581663,
+        "acc_norm,none": 0.7752525252525253,
+        "acc_norm_stderr,none": 0.008565193882762293
+      }
+    },
+    "wall_time_s": 41336.749725818634,
+    "2bit": {
+      "quantized_ppl": 9.7865,
+      "quantized_zeroshot": {
+        "arc_challenge": {
+          "name": "arc_challenge",
+          "alias": "arc_challenge",
+          "sample_len": 1172,
+          "acc,none": 0.46331058020477817,
+          "acc_stderr,none": 0.014572000527756918,
+          "acc_norm,none": 0.49402730375426623,
+          "acc_norm_stderr,none": 0.014610348300255798
+        },
+        "arc_easy": {
+          "name": "arc_easy",
+          "alias": "arc_easy",
+          "sample_len": 2376,
+          "acc,none": 0.7882996632996633,
+          "acc_stderr,none": 0.00838252076497783,
+          "acc_norm,none": 0.7537878787878788,
+          "acc_norm_stderr,none": 0.008839902656771712
+        }
+      }
+    },
+    "3bit": {
+      "quantized_ppl": 6.9099,
+      "quantized_zeroshot": {
+        "arc_challenge": {
+          "name": "arc_challenge",
+          "alias": "arc_challenge",
+          "sample_len": 1172,
+          "acc,none": 0.5059726962457338,
+          "acc_stderr,none": 0.014610348300255798,
+          "acc_norm,none": 0.5324232081911263,
+          "acc_norm_stderr,none": 0.014580637569995414
+        },
+        "arc_easy": {
+          "name": "arc_easy",
+          "alias": "arc_easy",
+          "sample_len": 2376,
+          "acc,none": 0.8131313131313131,
+          "acc_stderr,none": 0.007998652011081802,
+          "acc_norm,none": 0.7962962962962963,
+          "acc_norm_stderr,none": 0.008264279630493416
+        }
+      }
+    }
+  },
+  "qwen3-8b": {
+    "model_id": "Qwen/Qwen3-8B",
+    "2bit": {
+      "quantized_ppl": 16.8541,
+      "quantized_zeroshot": {
+        "arc_challenge": {
+          "name": "arc_challenge",
+          "alias": "arc_challenge",
+          "sample_len": 1172,
+          "acc,none": 0.4667235494880546,
+          "acc_stderr,none": 0.0145789958596058,
+          "acc_norm,none": 0.48378839590443684,
+          "acc_norm_stderr,none": 0.014603708567414945
+        },
+        "arc_easy": {
+          "name": "arc_easy",
+          "alias": "arc_easy",
+          "sample_len": 2376,
+          "acc,none": 0.7781986531986532,
+          "acc_stderr,none": 0.008525022225214566,
+          "acc_norm,none": 0.7533670033670034,
+          "acc_norm_stderr,none": 0.00884498458193473
+        }
+      }
+    },
+    "3bit": {
+      "quantized_ppl": 9.5427,
+      "quantized_zeroshot": {
+        "arc_challenge": {
+          "name": "arc_challenge",
+          "alias": "arc_challenge",
+          "sample_len": 1172,
+          "acc,none": 0.49829351535836175,
+          "acc_stderr,none": 0.014611305705057077,
+          "acc_norm,none": 0.515358361774744,
+          "acc_norm_stderr,none": 0.014604496129394757
+        },
+        "arc_easy": {
+          "name": "arc_easy",
+          "alias": "arc_easy",
+          "sample_len": 2376,
+          "acc,none": 0.7937710437710438,
+          "acc_stderr,none": 0.008302151245415636,
+          "acc_norm,none": 0.7542087542087542,
+          "acc_norm_stderr,none": 0.008834809366391395
+        }
+      }
+    },
+    "baseline_ppl": 8.9972,
+    "baseline_zeroshot": {
+      "arc_challenge": {
+        "name": "arc_challenge",
+        "alias": "arc_challenge",
+        "sample_len": 1172,
+        "acc,none": 0.5537542662116041,
+        "acc_stderr,none": 0.014526705548539945,
+        "acc_norm,none": 0.5656996587030717,
+        "acc_norm_stderr,none": 0.014484703048857371
+      },
+      "arc_easy": {
+        "name": "arc_easy",
+        "alias": "arc_easy",
+        "sample_len": 2376,
+        "acc,none": 0.8362794612794613,
+        "acc_stderr,none": 0.007592686894820368,
+        "acc_norm,none": 0.8085016835016835,
+        "acc_norm_stderr,none": 0.00807404447731976
+      }
+    },
+    "wall_time_s": 23427.39547085762
+  },
+  "gemma4-12b": {
+    "model_id": "google/gemma-4-12B",
+    "2bit": {
+      "quantized_ppl": 14.6239,
+      "quantized_zeroshot": {
+        "arc_challenge": {
+          "name": "arc_challenge",
+          "alias": "arc_challenge",
+          "sample_len": 1172,
+          "acc,none": 0.40187713310580203,
+          "acc_stderr,none": 0.014327268614578337,
+          "acc_norm,none": 0.4334470989761092,
+          "acc_norm_stderr,none": 0.014481376224558896
+        },
+        "arc_easy": {
+          "name": "arc_easy",
+          "alias": "arc_easy",
+          "sample_len": 2376,
+          "acc,none": 0.7668350168350169,
+          "acc_stderr,none": 0.008676624951179705,
+          "acc_norm,none": 0.7407407407407407,
+          "acc_norm_stderr,none": 0.008992251535805688
+        }
+      }
+    },
+    "3bit": {
+      "quantized_ppl": 8.547,
+      "quantized_zeroshot": {
+        "arc_challenge": {
+          "name": "arc_challenge",
+          "alias": "arc_challenge",
+          "sample_len": 1172,
+          "acc,none": 0.5196245733788396,
+          "acc_stderr,none": 0.014600132075947018,
+          "acc_norm,none": 0.5520477815699659,
+          "acc_norm_stderr,none": 0.014532011498211617
+        },
+        "arc_easy": {
+          "name": "arc_easy",
+          "alias": "arc_easy",
+          "sample_len": 2376,
+          "acc,none": 0.8202861952861953,
+          "acc_stderr,none": 0.007878465068489398,
+          "acc_norm,none": 0.8068181818181818,
+          "acc_norm_stderr,none": 0.008101009769568629
+        }
+      }
+    },
+    "baseline_ppl": 7.3103,
+    "baseline_zeroshot": {
+      "arc_challenge": {
+        "name": "arc_challenge",
+        "alias": "arc_challenge",
+        "sample_len": 1172,
+        "acc,none": 0.5853242320819113,
+        "acc_stderr,none": 0.014397070564409184,
+        "acc_norm,none": 0.6177474402730375,
+        "acc_norm_stderr,none": 0.014200454049979326
+      },
+      "arc_easy": {
+        "name": "arc_easy",
+        "alias": "arc_easy",
+        "sample_len": 2376,
+        "acc,none": 0.8543771043771043,
+        "acc_stderr,none": 0.007237820779715655,
+        "acc_norm,none": 0.8606902356902357,
+        "acc_norm_stderr,none": 0.00710529984189629
+      }
+    },
+    "wall_time_s": 22893.70031428337
+  },
+  "qwen3-32b": {
+    "model_id": "Qwen/Qwen3-32B",
+    "2bit": {
+      "quantized_ppl": 8.6094,
+      "quantized_zeroshot": {
+        "arc_challenge": {
+          "name": "arc_challenge",
+          "alias": "arc_challenge",
+          "sample_len": 1172,
+          "acc,none": 0.5665529010238908,
+          "acc_stderr,none": 0.014481376224558896,
+          "acc_norm,none": 0.5964163822525598,
+          "acc_norm_stderr,none": 0.014337158914268455
+        },
+        "arc_easy": {
+          "name": "arc_easy",
+          "alias": "arc_easy",
+          "sample_len": 2376,
+          "acc,none": 0.8400673400673401,
+          "acc_stderr,none": 0.00752131579248777,
+          "acc_norm,none": 0.8324915824915825,
+          "acc_norm_stderr,none": 0.0076626049596243894
+        }
+      }
+    },
+    "3bit": {
+      "quantized_ppl": 7.3708,
+      "quantized_zeroshot": {
+        "arc_challenge": {
+          "name": "arc_challenge",
+          "alias": "arc_challenge",
+          "sample_len": 1172,
+          "acc,none": 0.5784982935153583,
+          "acc_stderr,none": 0.014430197069326087,
+          "acc_norm,none": 0.6126279863481229,
+          "acc_norm_stderr,none": 0.014235872487909897
+        },
+        "arc_easy": {
+          "name": "arc_easy",
+          "alias": "arc_easy",
+          "sample_len": 2376,
+          "acc,none": 0.8425925925925926,
+          "acc_stderr,none": 0.007472907290252558,
+          "acc_norm,none": 0.8489057239057239,
+          "acc_norm_stderr,none": 0.007348893101780638
+        }
+      }
+    },
+    "baseline_ppl": 7.0176,
+    "baseline_zeroshot": {
+      "arc_challenge": {
+        "name": "arc_challenge",
+        "alias": "arc_challenge",
+        "sample_len": 1172,
+        "acc,none": 0.5802047781569966,
+        "acc_stderr,none": 0.014422181226303012,
+        "acc_norm,none": 0.6075085324232082,
+        "acc_norm_stderr,none": 0.01426963463567067
+      },
+      "arc_easy": {
+        "name": "arc_easy",
+        "alias": "arc_easy",
+        "sample_len": 2376,
+        "acc,none": 0.8442760942760943,
+        "acc_stderr,none": 0.007440259500567744,
+        "acc_norm,none": 0.82996632996633,
+        "acc_norm_stderr,none": 0.007708429318843134
+      }
+    },
+    "wall_time_s": 100250.85508823395
+  }
+}

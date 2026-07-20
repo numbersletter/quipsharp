@@ -1,0 +1,18 @@
+# generated artifacts (huge / reproducible)
+hess/
+quantized/
+offload/
+logs/
+
+# runtime / tooling debris
+.hessian_collection.lock
+.pytest_cache/
+*.egg-info/
+__pycache__/
+*.pyc
+.vscode/
+
+# other projects living in this directory
+author_impl/
+impl/
+/QuIPSharp.pdf
