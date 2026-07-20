@@ -3,7 +3,7 @@
 QuIP# implementation (2-bit E8P + 3-bit RVQ, no fine-tuning),
 benchmarked on WikiText2 ppl + ARC zeroshot. **6/9 models are done** (see
 `results.json`): llama2-7b, llama3-8b, qwen2.5-7b, qwen3-8b, qwen3-32b,
-gemma4-12b. Remaining: gemma4-31b, llama2-70b, llama3-70b.
+gemma4-12b. Remaining: gemma4-31b, llama3-70b.
 
 ## Install
 
