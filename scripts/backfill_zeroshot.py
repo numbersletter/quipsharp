@@ -21,7 +21,7 @@ parser.add_argument("--models", default=",".join(MODELS), type=str)
 parser.add_argument("--tasks", default="winogrande", type=str)
 parser.add_argument("--results_path", default=str(ROOT / "results.json"), type=str)
 parser.add_argument("--quant_root", default=str(ROOT / "quantized"), type=str)
-parser.add_argument("--batch_size", default=16, type=int)
+parser.add_argument("--batch_size", default="auto", type=str)
 
 
 def eval_tasks(model_id_or_path: str, tasks: str, tag: str, model_key: str, args) -> dict:

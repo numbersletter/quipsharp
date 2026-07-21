@@ -23,19 +23,21 @@ import json
 import torch
 from transformers import AutoTokenizer
 
-from quipsharp.model_loading import load_eval_model
+from quipsharp.model_loading import load_eval_model, resolve_gpu_budget_bytes, resolve_cpu_budget_bytes
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model_id_or_path", required=True, type=str)
 parser.add_argument("--tasks", default="arc_challenge,arc_easy", type=str)
 parser.add_argument("--num_fewshot", default=0, type=int)
-parser.add_argument("--batch_size", default=8, type=int)
+# "auto" makes lm-eval binary-search the largest batch that fits in memory.
+parser.add_argument("--batch_size", default="auto", type=str)
 parser.add_argument("--output_path", default=None, type=str)
 parser.add_argument("--gpu_devices", default=None, type=str,
                      help="devices to spread an oversized model over "
                           "(default: all visible GPUs; pass to restrict to a subset)")
-parser.add_argument("--gpu_budget_gb", default=20.0, type=float)
-parser.add_argument("--cpu_budget_gb", default=60.0, type=float)
+# budgets: a number (GB) or "auto" to size from detected free VRAM / available RAM.
+parser.add_argument("--gpu_budget_gb", default="auto", type=str)
+parser.add_argument("--cpu_budget_gb", default="auto", type=str)
 parser.add_argument("--offload_folder", default=None, type=str)
 
 
@@ -56,14 +58,18 @@ def main(args):
     else:
         gpu_devices = [f"cuda:{i}" for i in range(torch.cuda.device_count())]
 
-    print(f"loading {args.model_id_or_path} ...", flush=True)
+    gpu_budget_bytes = resolve_gpu_budget_bytes(args.gpu_budget_gb)
+    cpu_budget_bytes = resolve_cpu_budget_bytes(args.cpu_budget_gb)
+    print(f"loading {args.model_id_or_path} (gpu budget {gpu_budget_bytes/1024**3:.1f}GB, "
+          f"cpu {cpu_budget_bytes/1024**3:.1f}GB) ...", flush=True)
     model, device = load_eval_model(args.model_id_or_path, gpu_devices=gpu_devices,
-                                     gpu_budget_bytes=int(args.gpu_budget_gb * 1024**3),
-                                     cpu_budget_bytes=int(args.cpu_budget_gb * 1024**3),
+                                     gpu_budget_bytes=gpu_budget_bytes,
+                                     cpu_budget_bytes=cpu_budget_bytes,
                                      offload_folder=args.offload_folder)
     tokenizer = AutoTokenizer.from_pretrained(args.model_id_or_path)
 
-    lm = HFLM(pretrained=model, tokenizer=tokenizer, batch_size=args.batch_size)
+    batch_size = args.batch_size if args.batch_size.startswith("auto") else int(args.batch_size)
+    lm = HFLM(pretrained=model, tokenizer=tokenizer, batch_size=batch_size)
     task_names = args.tasks.split(",")
 
     results = simple_evaluate(model=lm, tasks=task_names, num_fewshot=args.num_fewshot)

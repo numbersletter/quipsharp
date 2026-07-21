@@ -20,12 +20,12 @@ hf auth login          # token needs gated meta-llama/google access
 ```bash
 conda activate quipsharp
 nohup setsid bash scripts/launch_full_benchmark.sh \
-  --models gemma4-31b,llama3-70b \
-  --gpu 0,1 --gpu_budget_gb 60 --cpu_budget_gb 48 > logs/orchestrator.log 2>&1 &
+  --models gemma4-31b,llama3-70b --gpu 0,1 > logs/orchestrator.log 2>&1 &
 ```
 
-- Size the flags to the machine: `--gpu` = GPUs to use, `--gpu_budget_gb`.
-  Choose allocation that is appropriate given the config (with 1 H100, for example, you can
-  opt to use 80% of the VRAM which would be 64GB and then 50% of available RAM for cpu_budget_gb).
-  This is just a safeguard against OOM errors.
+- `--gpu` = GPUs to use. Memory budgets and zeroshot batch size auto-detect
+  by default; pass `--gpu_budget_gb`/`--cpu_budget_gb` (GB) only to cap them,
+  e.g. on a machine shared with other jobs.
+- Resumable: re-run the same command after any interruption; only missing
+  stages are redone (`results.json` is the state — keep it).
 - Progress: `logs/orchestrator.log`; per-stage logs in `logs/<model>/`.

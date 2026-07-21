@@ -9,6 +9,29 @@ from pathlib import Path
 from .checkpoint import is_quantized_checkpoint, load_quantized_checkpoint
 
 
+def resolve_gpu_budget_bytes(arg, headroom_frac: float = 0.15) -> int:
+    """Per-GPU weight budget in bytes. A number is taken as GB; "auto" is the
+    free VRAM of the least-free visible device minus `headroom_frac` of its
+    total (headroom for activations/logits)."""
+    if arg != "auto":
+        return int(float(arg) * 1024**3)
+    import torch
+    budgets = [free - int(headroom_frac * total)
+               for free, total in (torch.cuda.mem_get_info(i)
+                                    for i in range(torch.cuda.device_count()))]
+    return min(budgets) if budgets else 0
+
+
+def resolve_cpu_budget_bytes(arg, use_frac: float = 0.8) -> int:
+    """CPU offload budget in bytes. A number is taken as GB; "auto" is
+    `use_frac` of currently-available RAM (MemAvailable)."""
+    if arg != "auto":
+        return int(float(arg) * 1024**3)
+    with open("/proc/meminfo") as f:
+        avail_kb = next(int(line.split()[1]) for line in f if line.startswith("MemAvailable"))
+    return int(avail_kb * 1024 * use_frac)
+
+
 def load_eval_model(model_id_or_path: str, gpu_devices: list[str] = ("cuda:0",),
                      gpu_budget_bytes: int = 20 * 1024**3, cpu_budget_bytes: int = 60 * 1024**3,
                      offload_folder: str = None):

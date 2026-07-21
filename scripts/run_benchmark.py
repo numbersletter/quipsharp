@@ -99,15 +99,11 @@ parser.add_argument("--devset_size", default=256, type=int)
 parser.add_argument("--ctx_size", default=4096, type=int)
 parser.add_argument("--ppl_ctx_size", default=4096, type=int)
 parser.add_argument("--zeroshot_tasks", default="arc_challenge,arc_easy,winogrande", type=str)
-parser.add_argument("--zeroshot_batch_size", default=8, type=int,
-                     help="batch size for dense (baseline) zeroshot eval")
-parser.add_argument("--zeroshot_batch_size_quantized", default=16, type=int,
-                     help="batch size for quantized-checkpoint zeroshot eval; larger than the dense "
-                          "default to amortize per-forward dequantization, but capped at 16 so a "
-                          "batch's logits still fit a 24GB GPU for 262k-vocab models")
-parser.add_argument("--gpu_budget_gb", default=20.0, type=float)
-parser.add_argument("--cpu_budget_gb", default=42.0, type=float,
-                     help="CPU weight budget for offloaded dense evals (set ~20GB below total RAM)")
+parser.add_argument("--zeroshot_batch_size", default="auto", type=str,
+                     help='passed to lm-eval; "auto" finds the largest batch that fits')
+# budgets: a number (GB) or "auto" to size from detected free VRAM / available RAM.
+parser.add_argument("--gpu_budget_gb", default="auto", type=str)
+parser.add_argument("--cpu_budget_gb", default="auto", type=str)
 parser.add_argument("--offload_folder", default=str(SCRIPTS_DIR.parent / "offload"), type=str)
 parser.add_argument("--skip_baseline", action="store_true",
                      help="skip dense (unquantized) baseline evals -- just quantize + eval those")
@@ -182,13 +178,16 @@ def stage_quantize(model_key: str, model_id: str, codebook: str, args) -> Path:
 
 
 def _pinned_eval_opts(args, gpu_override: str):
-    """(cpu_budget_gb, extra_env) for an eval child. Pinning to one physical
-    GPU is just a CUDA_VISIBLE_DEVICES override (children use whatever is
-    visible); the CPU budget is split across concurrent slots."""
+    """(cpu_budget_gb, extra_env) for an eval child. Pinning to one GPU is
+    just a CUDA_VISIBLE_DEVICES override; an explicit CPU budget is split
+    across concurrent slots ("auto" needs no split -- concurrent evals are
+    small models that don't offload to CPU)."""
     if gpu_override is None:
         return args.cpu_budget_gb, None
-    n_slots = max(len(args.gpu.split(",")), 1)
-    return args.cpu_budget_gb / n_slots, {"CUDA_VISIBLE_DEVICES": gpu_override}
+    cpu = args.cpu_budget_gb
+    if cpu != "auto":
+        cpu = str(float(cpu) / max(len(args.gpu.split(",")), 1))
+    return cpu, {"CUDA_VISIBLE_DEVICES": gpu_override}
 
 
 def stage_eval_ppl(model_key: str, model_id_or_path: str, tag: str, args,
@@ -210,11 +209,10 @@ def stage_eval_zeroshot(model_key: str, model_id_or_path: str, tag: str, args,
                         gpu_override: str = None) -> dict:
     log_path = Path(args.log_root) / model_key / f"eval_zeroshot_{tag}.log"
     out_json = Path(args.log_root) / model_key / f"eval_zeroshot_{tag}.json"
-    batch_size = args.zeroshot_batch_size if tag == "baseline" else args.zeroshot_batch_size_quantized
     cpu_budget_gb, extra_env = _pinned_eval_opts(args, gpu_override)
     run([sys.executable, str(SCRIPTS_DIR / "eval_zeroshot.py"),
          "--model_id_or_path", model_id_or_path, "--tasks", args.zeroshot_tasks,
-         "--output_path", str(out_json), "--batch_size", str(batch_size),
+         "--output_path", str(out_json), "--batch_size", args.zeroshot_batch_size,
          "--gpu_budget_gb", str(args.gpu_budget_gb),
          "--cpu_budget_gb", str(cpu_budget_gb), "--offload_folder", args.offload_folder],
         log_path, extra_env)
@@ -259,7 +257,7 @@ def run_model(model_key: str, codebooks: list[str], results: dict, args) -> None
                 jobs.append((sub, key, kind, str(quant_path), cb))
 
     gpu_ids = args.gpu.split(",")
-    gpu_budget_bytes = int(args.gpu_budget_gb * 1024**3)
+    budget_cache = {}  # resolved lazily so single-GPU runs never init CUDA in the parent
 
     def needs_all_gpus(job) -> bool:
         _store, _key, _kind, path, tag = job
@@ -268,7 +266,12 @@ def run_model(model_key: str, codebooks: list[str], results: dict, args) -> None
         if tag == "baseline":
             return model_key in LARGE_MODELS
         state = Path(path) / "quantized_state.pt"
-        return state.exists() and state.stat().st_size > gpu_budget_bytes
+        if not state.exists():
+            return False
+        if "gpu" not in budget_cache:
+            from quipsharp.model_loading import resolve_gpu_budget_bytes
+            budget_cache["gpu"] = resolve_gpu_budget_bytes(args.gpu_budget_gb)
+        return state.stat().st_size > budget_cache["gpu"]
 
     def run_eval(job, gpu_override=None):
         store, key, kind, path, tag = job
