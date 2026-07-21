@@ -23,9 +23,7 @@ nohup setsid bash scripts/launch_full_benchmark.sh \
   --models gemma4-31b,llama3-70b --gpu 0,1 > logs/orchestrator.log 2>&1 &
 ```
 
-- `--gpu` = GPUs to use. Memory budgets and zeroshot batch size auto-detect
-  by default; pass `--gpu_budget_gb`/`--cpu_budget_gb` (GB) only to cap them,
-  e.g. on a machine shared with other jobs.
+- `--gpu` = GPUs to use (check nvidia-smi for which ones to use). 
 - Resumable: re-run the same command after any interruption; only missing
   stages are redone (`results.json` is the state — keep it).
 - Progress: `logs/orchestrator.log`; per-stage logs in `logs/<model>/`.
